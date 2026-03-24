@@ -323,7 +323,7 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
   display: flex; gap: 40px; margin-top: 60px;
   animation: fadeSlideUp 1s var(--ease) 1s both;
 }
-.hero-stat {}
+/* .hero-stat removed (empty) */
 .hero-stat-num {
   font-family: var(--font-display);
   font-size: 38px;
@@ -518,7 +518,7 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
   z-index: 2;
 }
 .about-year-badge strong { font-size: 28px; font-family: var(--font-display); display: block; }
-.about-content {}
+/* .about-content removed (empty) */
 .about-story {
   font-family: var(--font-display);
   font-size: 20px;
@@ -758,7 +758,7 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
   background: linear-gradient(to left, rgba(181,56,14,.06), transparent);
 }
 .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.events-content {}
+/* .events-content removed (empty) */
 .events-cards { display: flex; flex-direction: column; gap: 20px; }
 .event-card {
   background: var(--bg-dark);
@@ -798,6 +798,30 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
 .form-field { display: flex; flex-direction: column; gap: 8px; }
 .form-field.full { grid-column: 1 / -1; }
 .form-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.food-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+  background: rgba(200,146,42,.03);
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.food-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.food-option:hover { color: var(--cream); }
+.food-option input {
+  accent-color: var(--gold);
+  cursor: pointer;
+}
 .form-input, .form-select, .form-textarea {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -808,6 +832,7 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
   font-size: 14px;
   transition: border-color 0.25s, box-shadow 0.25s;
   -webkit-appearance: none;
+  appearance: none;
 }
 .form-input:focus, .form-select:focus, .form-textarea:focus {
   outline: none;
@@ -874,7 +899,7 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
 ═══════════════════════════════════════════════════════════ */
 .contact { background: var(--bg-dark); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
-.contact-info {}
+/* .contact-info removed (empty) */
 .contact-title { font-family: var(--font-display); font-size: clamp(36px,4vw,54px); font-weight: 300; color: var(--cream); margin-bottom: 40px; }
 .contact-items { display: flex; flex-direction: column; gap: 28px; }
 .contact-item { display: flex; gap: 20px; align-items: flex-start; }
@@ -939,7 +964,7 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
   padding: 60px 0 30px;
 }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
-.footer-brand {}
+/* .footer-brand removed (empty) */
 .footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
 .footer-logo-em {
   width: 40px; height: 40px;
@@ -1002,6 +1027,11 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════════════════ */
+/* Mobile Menu (Hidden by default on desktop) */
+.nav-mobile-menu {
+  display: none;
+}
+
 @media (max-width: 1100px) {
   .why-grid       { grid-template-columns: repeat(2,1fr); }
   .footer-grid    { grid-template-columns: 1fr 1fr; }
@@ -1038,6 +1068,7 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
   .nav-links { display: none; }
   .nav-phone { display: none; }
   .nav-toggle { display: flex; }
+
   .nav-mobile-menu {
     position: fixed; inset: 0;
     background: rgba(8,6,4,.97);
@@ -1061,3 +1092,4 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
   .why-grid { grid-template-columns: 1fr; }
   .contact-map { height: 280px; }
 }
+

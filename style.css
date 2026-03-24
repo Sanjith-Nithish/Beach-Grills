@@ -1029,7 +1029,7 @@ body.cursor-hover .cursor-ring { width: 60px; height: 60px; border-color: rgba(1
 ═══════════════════════════════════════════════════════════ */
 /* Mobile Menu (Hidden by default on desktop) */
 .nav-mobile-menu {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 1100px) {

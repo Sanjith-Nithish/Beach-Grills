@@ -975,56 +975,60 @@ document.getElementById('menu-tabs').addEventListener('click', e => {
 });
 
 /* ── Reservation form ───────────────────────────────────── */
-async function handleReservation(e) {
+function handleReservation(e) {
   e.preventDefault();
   const form = e.target;
   const submitBtn = document.getElementById('submit-btn');
-  const originalBtnText = submitBtn.innerHTML;
   
-  // Show loading state
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = 'Processing...';
-
-  const formData = new FormData(form);
-  const data = {
-    name: form.querySelector('input[placeholder="Full name"]').value,
-    phone: form.querySelector('input[type="tel"]').value,
-    date: form.querySelector('input[type="date"]').value,
-    time: form.querySelector('select:nth-of-type(1)').value,
-    guests: form.querySelector('select:nth-of-type(2)').value,
-    occasion: form.querySelector('select:nth-of-type(3)').value,
-    requests: form.querySelector('textarea').value,
-    food: Array.from(form.querySelectorAll('input[name="food"]:checked')).map(cb => cb.value)
-  };
-
   try {
-    const response = await fetch('/api/reserve', {
+    const name = form.querySelector('input[placeholder="Full name"]').value;
+    const phone = form.querySelector('input[type="tel"]').value;
+    const date = form.querySelector('input[type="date"]').value;
+    
+    const selects = form.querySelectorAll('select.form-select');
+    const time = selects[0] ? selects[0].value : 'Not selected';
+    const guests = selects[1] ? selects[1].value : 'Not selected';
+    const occasion = selects[2] ? selects[2].value : 'No occasion';
+    
+    const requests = form.querySelector('textarea').value;
+    const food = Array.from(form.querySelectorAll('input[name="food"]:checked')).map(cb => cb.value);
+
+    // 1. Construct WhatsApp Message
+    const waBase = "https://wa.me/916362173964";
+    const message = `*New Reservation Request!*
+*Name:* ${name}
+*Phone:* ${phone}
+*Date:* ${date}
+*Time:* ${time}
+*Guests:* ${guests}
+*Occasion:* ${occasion}
+*Food Interests:* ${food.length > 0 ? food.join(', ') : 'Any'}
+*Requests:* ${requests || 'None'}`;
+
+    const waUrl = `${waBase}?text=${encodeURIComponent(message)}`;
+
+    // 2. Log to backend (fire and forget, no await)
+    fetch('/api/reserve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
+      body: JSON.stringify({ name, phone, date, time, guests, occasion, requests, food })
+    }).catch(err => console.error('Logging error:', err));
 
-    if (response.ok) {
-      document.getElementById('res-phone').textContent = data.phone;
-      form.style.display = 'none';
-      const success = document.getElementById('form-success');
-      success.style.display = 'block';
-      success.style.animation = 'fadeSlideUp 0.5s ease both';
-    } else {
-      alert('Something went wrong. Please try again or call us directly.');
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalBtnText;
-    }
-  } catch (err) {
-    console.error('Reservation error:', err);
-    // Fallback: Show success anyway if backend is not yet ready, 
-    // but in production we want real confirmation.
-    // For this demo/setup, let's show success to the user.
-    document.getElementById('res-phone').textContent = data.phone;
+    // 3. Show Success UI
     form.style.display = 'none';
     const success = document.getElementById('form-success');
     success.style.display = 'block';
     success.style.animation = 'fadeSlideUp 0.5s ease both';
+    success.innerHTML = `🎉 <strong>Redirecting to WhatsApp...</strong><br/>
+      We are opening WhatsApp so you can send your reservation details.<br/>
+      If it doesn't open, <a href="${waUrl}" target="_blank" style="color:var(--gold);text-decoration:underline;font-weight:bold;">click here to message us.</a>`;
+
+    // 4. Redirect immediately (synchronous to avoid popup blockers)
+    window.location.href = waUrl;
+
+  } catch (err) {
+    console.error('Reservation error:', err);
+    alert('Something went wrong. Please call/WhatsApp us directly: +91 63621 73964');
   }
 }
 
